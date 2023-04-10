@@ -118,10 +118,18 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URl = '/media/'
-MEDIA_ROOT = BASE_DIR/'media'
+# MEDIA_ROOT = BASE_DIR/'media'
+LOGIN_REDIRECT_URL = '/profile/'
+LOGOUT_REDIRECT_URL = "/" 
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+KHALTI_TEST_LIVE_SECRET_KEY = "3f4159b5f85840fdab55ce0670f53e6d" 
+KHALTI_LIVE_SECRET_KEY = "live_secret_key_292ff997b479476b9fa2fb39fa715244"  
+
