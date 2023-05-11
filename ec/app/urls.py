@@ -1,9 +1,12 @@
 from django.contrib import admin
 from django.urls import path
+
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_view
+from django.contrib.auth.views import LogoutView
+
 from .forms import LoginForm, MyPasswordResetForm, MyPasswordChangeForm, MySetPasswordForm
 urlpatterns = [
     path("", views.home,name="home"),
@@ -19,13 +22,17 @@ urlpatterns = [
     path("add-to-cart/", views.add_to_cart, name="add_to_cart"),
     path("cart/",views.show_cart,name="showcart"),
     path("checkout/",views.checkout.as_view(),name="checkout"),
+    path("orders/",views.home,name="orders"),
+
 
     path("pluscart/",views.plus_cart),
     path("minuscart/",views.minus_cart),
     path("removecart/",views.remove_cart),
 
     # payment
-    # path('payment/', views.payment , name='payment'),
+    path('payment/', views.payment , name='payment'),
+    path('paymentverify', views.paymentVerification , name='paymentverification'),
+
 
 
 
@@ -38,6 +45,8 @@ urlpatterns = [
 
     path("passwordchangedone/", auth_view.PasswordChangeDoneView.as_view(template_name = 'app/passwordchangedone.html') ,name = "password_change_done"),
 
+    # logout
+    path('logout/', LogoutView.as_view(), name='logout'),
     # Reset password
     path('password-reset/', auth_view. PasswordResetView.as_view (template_name='app/password_reset.html',
     form_class=MyPasswordResetForm), name='password_reset'),
@@ -47,5 +56,10 @@ urlpatterns = [
     path('password-reset-confirm/<uidb64>/<token>/', auth_view.PasswordResetConfirmView.as_view(template_name='app/password_reset_confirm.html',form_class = MySetPasswordForm),name='password_reset_confirm'),
     
     path('password-reset-complete/', auth_view.PasswordResetCompleteView.as_view(template_name='app/password_reset_complete.html'),name = 'password_reset_complete'),
+    
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
+
+admin.site.site_header = 'Ecommerce'
+admin.site.site_title = 'Ecommerce'
+admin.site.site_index_title = 'Welcome to Ecommerce'

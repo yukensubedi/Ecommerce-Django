@@ -65,21 +65,27 @@ STATUS_CHOICES = (
     ('Cancel','Cancel'),
     ('Pending', 'Pending'),
 )
-class Payment(models.Model):
+#
+class Khalti(models.Model):
     user = models.ForeignKey(User, on_delete= models.CASCADE)
-    amount = models.FloatField()
+    pidx = models.CharField(max_length=100)
 
-    paid = models.BooleanField()
+    paymentstatus = models.CharField(max_length=100, default = '')
+    txnid = models.CharField(max_length=100, default='')
+    paidamount = models.FloatField(default=0)
+    timestamp = models.DateTimeField(auto_now_add=True)
+   
 
-class OrderPlaced(models.Model):
+class Order(models.Model):
     user = models.ForeignKey(User, on_delete= models.CASCADE)
+    order_number = models.CharField(max_length=100)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     ordered_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
-    payment = models.ForeignKey(Payment, on_delete=models.CASCADE, default='')
-
+    paymentstatus = models.CharField(max_length=100)    
+    
     @property
     def total_code(self):
         return self.quantity * self.product.discounted_price
